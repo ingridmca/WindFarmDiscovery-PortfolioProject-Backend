@@ -3,11 +3,11 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "windFarms",
+      "turbineModels",
 
       [
         {
-          model: "GE 2.0-116",
+          model: "GE2.0-116",
           supplier: "GE Wind",
           wsCutIn: 3.0,
           wsCutOut: 25.0,
@@ -23,7 +23,7 @@ module.exports = {
         },
 
         {
-          model: "GE 2.7-116",
+          model: "GE2.7-116",
           supplier: "GE Wind",
           wsCutIn: 3.0,
           wsCutOut: 25.0,
@@ -68,7 +68,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          model: "G97-2.0",
+          model: "G87-2.0",
           supplier: "Gamesa",
           wsCutIn: 3.0,
           wsCutOut: 25.0,
@@ -104,6 +104,16 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("windFarms", null, {});
+    await queryInterface.bulkDelete("turbineModels", null, {});
   },
 };
+
+// name varchar
+//   windfarm int
+//   dataTime timestamp
+//   avgPower float8
+//   avgWind float8
+//   avgAvaiability float8
+//   avgPerformance float8
+
+//npx sequelize-cli model:generate --name windTurbine --attributes name:string,email:string,phone:integer,password:string
