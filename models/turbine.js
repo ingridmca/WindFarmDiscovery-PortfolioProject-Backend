@@ -1,17 +1,17 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Turbine extends Model {
+  class turbine extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      turbine.hasMany(models.turbinePerformenceData, { foreignKey: "case_id" });
     }
   }
-  Turbine.init(
+  turbine.init(
     {
       p_name: DataTypes.STRING,
       case_id: {
@@ -30,5 +30,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  return Turbine;
+  return turbine;
 };

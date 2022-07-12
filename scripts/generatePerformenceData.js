@@ -1,31 +1,10 @@
 const db = require("../models");
 
-// db.turbine.findAll().then((turbines) => {
-//   for (const turbine of turbines) {
-//     const start = new Date("2022-01-01 00:00:00 UTC");
-//     const end = new Date("2022-01-02 00:00:00 UTC");
-//     const tenMinuteMs = 10 * 60 * 1000; // ms
-
-//     for (
-//       let current = start;
-//       current < end;
-//       current = new Date(current.getTime() + tenMinuteMs)
-//     ) {
-//       // add power per turbine by 10 min in 10 min
-//     }
-//   }
-// });
-// dataTime timestamp
-// avgPower float8
-// avgWind float8
-// avgAvaiability float8
-// avgPerformance float8
-
 const turbineIds = async () => {
   db.turbine.findAll({ raw: true }).then((turbines) => {
     for (const turbine of turbines) {
       const start = new Date("2022-01-01 00:00:00 UTC");
-      const end = new Date("2022-04-01 00:00:00 UTC");
+      const end = new Date("2022-01-01 00:20:00 UTC");
       const tenMinuteMs = 10 * 60 * 1000; // ms
 
       for (
@@ -80,15 +59,26 @@ const turbineIds = async () => {
         }
 
         const avgAvaiability = Math.floor((Math.random() * 3 + 97) * 100) / 100;
-        const avgPowerCurve = Math.floor((Math.random() * 4 + 96) * 100) / 100;
-        console.log(
-          turbine,
-          current,
-          avgWind,
+        const avgPerformance = Math.floor((Math.random() * 4 + 96) * 100) / 100;
+        // console.log(
+        //   turbine,
+        //   current,
+        //   avgWind,
+        //   avgPower,
+        //   avgAvaiability,
+        //   avgPerformance
+        // );
+
+        const newLine = await db.turbinePerformenceData.create({
+          case_id,
+          timestamp,
           avgPower,
+          avgWind,
           avgAvaiability,
-          avgPowerCurve
-        );
+          avgPerformance
+        });
+
+        console.log(newLine);
       }
     }
   });
@@ -97,3 +87,25 @@ const turbineIds = async () => {
 turbineIds();
 
 //npx sequelize-cli model:generate --name turbinePerformenceData --attributes case_id:integer,timestamp:date,avgPower:double,avgWind:double,avgAvaiability:double,avgPerformance:double
+
+
+// db.turbine.findAll().then((turbines) => {
+//   for (const turbine of turbines) {
+//     const start = new Date("2022-01-01 00:00:00 UTC");
+//     const end = new Date("2022-01-02 00:00:00 UTC");
+//     const tenMinuteMs = 10 * 60 * 1000; // ms
+
+//     for (
+//       let current = start;
+//       current < end;
+//       current = new Date(current.getTime() + tenMinuteMs)
+//     ) {
+//       // add power per turbine by 10 min in 10 min
+//     }
+//   }
+// });
+// dataTime timestamp
+// avgPower float8
+// avgWind float8
+// avgAvaiability float8
+// avgPerformance float8
