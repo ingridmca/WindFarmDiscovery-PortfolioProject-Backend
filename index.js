@@ -5,6 +5,7 @@ const corsMiddleWare = require("cors");
 //routers
 const authRouter = require("./routers/auth");
 const windFarmRouter = require("./routers/windFarm");
+const turbineRouter = require("./routers/turbines");
 
 //constants
 const { PORT } = require("./config/constants");
@@ -23,6 +24,7 @@ app.use(express.json());
 //routes
 app.use("/auth", authRouter);
 app.use("/windfarm", windFarmRouter);
+app.use("/turbine", turbineRouter);
 
 //start listening
 app.listen(PORT, () => {

@@ -10,7 +10,7 @@ const fetchTurbines = async (dispatch, getState) => {
     //   "&or=(p_name.eq.Blue Sky - Green Field,p_name.eq.Bear Creek, p_name.eq.Anderson Wind Project, p_name.eq.Farmers City,p_name.eq.Lempster,p_name.eq.Willow Spring,p_name.eq.Zachary Ridge,p_name.eq.Winchester,p_name.eq.Windstar,p_name.eq.Franklin County)";
 
     const selectedWindFarms =
-      "&or=(p_name.eq.Blue Sky - Green Field,p_name.eq.Bear Creek)";
+      "&or=(p_name.eq.Groton,p_name.eq.Winchester,p_name.eq.Prospector)";
 
     const filterKeys = `&or=(t_manu.eq.Vestas, t_manu.eq.Gamesa, t_manu.eq.GE Wind)&t_model=neq.null${selectedWindFarms}`;
 
