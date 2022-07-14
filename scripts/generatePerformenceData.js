@@ -12,8 +12,8 @@ const turbineIds = async () => {
 
   for (const turbine of turbines) {
     //    break;
-    const start = new Date("2022-01-01 00:00:00 UTC");
-    const end = new Date("2022-04-01 00:00:00 UTC");
+    const start = new Date("2022-01-03 01:00:00");
+    const end = new Date("2022-04-01 00:00:00");
     const oneHourMs = 10 * 60 * 1000 * 6; // ms
 
     let batchTurbines = [];
@@ -26,7 +26,47 @@ const turbineIds = async () => {
       const case_id = turbine.case_id;
       const p_name = turbine.p_name;
       const timestamp = current;
-      const avgWind = Math.floor(Math.random() * 1800) / 100;
+      let avgWind;
+      let avgAvaiability;
+      if (
+        current <
+        new Date(
+          "2022-01-15 01:00:00" &&
+            (p_name === "Groton" || p_name === "Winchester")
+        )
+      ) {
+        avgWind = Math.floor(Math.random() * 1500) / 100;
+        avgAvaiability = Math.floor((Math.random() * 5 + 95) * 100) / 100;
+      } else if (
+        current >= new Date("2022-01-16 01:00:00") &&
+        current <
+          new Date(
+            "2022-02-10 01:00:00" &&
+              (p_name === "Bear Creek" || p_name === "Winchester")
+          )
+      ) {
+        avgWind = Math.floor(Math.random() * 500) / 100;
+        avgAvaiability = Math.floor((Math.random() * 10 + 90) * 100) / 100;
+      } else if (
+        current >= new Date("2022-02-20 01:00:00") &&
+        current <
+          new Date(
+            "2022-03-10 01:00:00" &&
+              (p_name === "Groton" || p_name === "Winchester")
+          )
+      ) {
+        avgWind = Math.floor(Math.random() * 800) / 100;
+        avgAvaiability = Math.floor((Math.random() * 3 + 97) * 100) / 100;
+      } else if (
+        current >= new Date("2022-03-10 01:00:00") &&
+        (p_name === "Groton" || p_name === "Bear Creek")
+      ) {
+        avgWind = Math.floor(Math.random() * 1100) / 100;
+        avgAvaiability = Math.floor((Math.random() * 4 + 96) * 100) / 100;
+      } else {
+        avgWind = Math.floor(Math.random() * 900) / 100;
+        avgAvaiability = Math.floor((Math.random() * 5 + 95) * 100) / 100;
+      }
 
       let avgPower;
 
@@ -70,7 +110,6 @@ const turbineIds = async () => {
         avgPower = turbine.t_cap;
       }
 
-      const avgAvaiability = Math.floor((Math.random() * 3 + 97) * 100) / 100;
       const avgPerformance = Math.floor((Math.random() * 4 + 96) * 100) / 100;
 
       if (batchTurbines.length < 300) {

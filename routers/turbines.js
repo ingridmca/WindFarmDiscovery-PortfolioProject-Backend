@@ -60,6 +60,27 @@ router.get("/performance", async (req, res) => {
   }
 });
 
-//Export your router!
+router.get("/performance/powergraph/:id", async (req, res) => {
+  try {
+    const pNameParam = req.params.id || "";
+    const pNames = pNameParam.split(",");
+
+    console.log(pNames);
+
+    const turbinePerformance = await db.turbinePerformenceData.findAll({
+      where: { p_name: pNames },
+      attributes: [
+        [db.sequelize.literal("EXTRACT(WEEK FROM timestamp)"), "week"],
+        [db.sequelize.fn("SUM", db.sequelize.col("avgPower")), "avgPower"],
+      ],
+      group: [db.sequelize.literal("EXTRACT(WEEK FROM timestamp)")],
+      order: [db.sequelize.literal("EXTRACT(WEEK FROM timestamp)")],
+    });
+
+    res.status(200).send(turbinePerformance);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
 
 module.exports = router;
