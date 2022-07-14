@@ -23,6 +23,12 @@ module.exports = (sequelize, DataTypes) => {
       t_cap: DataTypes.INTEGER,
       t_model: DataTypes.STRING,
       p_tnum: DataTypes.INTEGER,
+      p_year: DataTypes.INTEGER,
+      p_cap: DataTypes.DOUBLE,
+      t_manu: DataTypes.STRING,
+      t_hh: DataTypes.INTEGER,
+      xlong: DataTypes.FLOAT,
+      ylat: DataTypes.FLOAT,
     },
     {
       sequelize,

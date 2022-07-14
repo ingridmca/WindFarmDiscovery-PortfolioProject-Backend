@@ -26,6 +26,9 @@ module.exports = {
       avgPerformance: {
         type: Sequelize.DOUBLE,
       },
+      p_name: {
+        type: Sequelize.STRING,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

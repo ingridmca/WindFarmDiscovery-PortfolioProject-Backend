@@ -20,6 +20,24 @@ module.exports = {
       p_tnum: {
         type: Sequelize.INTEGER,
       },
+      p_year: {
+        type: Sequelize.INTEGER,
+      },
+      p_cap: {
+        type: Sequelize.DOUBLE,
+      },
+      t_manu: {
+        type: Sequelize.STRING,
+      },
+      t_hh: {
+        type: Sequelize.INTEGER,
+      },
+      xlong: {
+        type: Sequelize.FLOAT,
+      },
+      ylat: {
+        type: Sequelize.FLOAT,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

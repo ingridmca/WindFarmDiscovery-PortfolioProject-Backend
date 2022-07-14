@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       avgWind: DataTypes.DOUBLE,
       avgAvaiability: DataTypes.DOUBLE,
       avgPerformance: DataTypes.DOUBLE,
+      p_name: DataTypes.STRING,
     },
     {
       sequelize,

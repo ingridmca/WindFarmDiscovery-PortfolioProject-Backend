@@ -1,12 +1,22 @@
 const db = require("../models");
 
 const turbineIds = async () => {
-  const turnbines = await db.turbine.findAll({ raw: true });
+  const turbines = await db.turbine.findAll({
+    where: {
+      p_name: ["Groton", "Winchester", "Bear Creek"],
+    },
+    raw: true,
+  });
+  // console.log(turbines);
+  //insert wherep_name filter for wind farms Groton, Winchester,Prospector
 
-  for (const turbine of turnbines) {
+  for (const turbine of turbines) {
+    //    break;
     const start = new Date("2022-01-01 00:00:00 UTC");
-    const end = new Date("2022-02-01 00:00:00 UTC");
+    const end = new Date("2022-04-01 00:00:00 UTC");
     const oneHourMs = 10 * 60 * 1000 * 6; // ms
+
+    let batchTurbines = [];
 
     for (
       let current = start;
@@ -14,6 +24,7 @@ const turbineIds = async () => {
       current = new Date(current.getTime() + oneHourMs)
     ) {
       const case_id = turbine.case_id;
+      const p_name = turbine.p_name;
       const timestamp = current;
       const avgWind = Math.floor(Math.random() * 1800) / 100;
 
@@ -61,27 +72,27 @@ const turbineIds = async () => {
 
       const avgAvaiability = Math.floor((Math.random() * 3 + 97) * 100) / 100;
       const avgPerformance = Math.floor((Math.random() * 4 + 96) * 100) / 100;
-      // console.log(
-      //   turbine,
-      //   current,
-      //   avgWind,
-      //   avgPower,
-      //   avgAvaiability,
-      //   avgPerformance
-      // );
 
-      const newLine = await db.turbinePerformenceData.create({
-        case_id,
-        timestamp,
-        avgPower,
-        avgWind,
-        avgAvaiability,
-        avgPerformance,
-      });
+      if (batchTurbines.length < 300) {
+        batchTurbines.push({
+          case_id,
+          timestamp,
+          avgPower,
+          avgWind,
+          avgAvaiability,
+          avgPerformance,
+          p_name,
+        });
+      } else {
+        await db.turbinePerformenceData.bulkCreate(batchTurbines);
+        batchTurbines = [];
+      }
+    }
 
-      console.log(newLine);
+    if (batchTurbines.length > 0) {
+      await db.turbinePerformenceData.bulkCreate(batchTurbines);
     }
   }
 };
 
-turbineIds();
+turbineIds().catch((error) => console.error(error.message));
