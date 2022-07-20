@@ -65,9 +65,9 @@ router.get("/performance/powergraph/:id", async (req, res) => {
     const pNameParam = req.params.id || "";
     const pNames = pNameParam.split(",");
 
-    console.log(pNames);
+    //console.log(pNames);
 
-    const turbinePerformance = await db.turbinePerformenceData.findAll({
+    const turbinesPower = await db.turbinePerformenceData.findAll({
       where: { p_name: pNames },
       attributes: [
         [db.sequelize.literal("EXTRACT(WEEK FROM timestamp)"), "week"],
@@ -77,7 +77,65 @@ router.get("/performance/powergraph/:id", async (req, res) => {
       order: [db.sequelize.literal("EXTRACT(WEEK FROM timestamp)")],
     });
 
-    res.status(200).send(turbinePerformance);
+    res.status(200).send(turbinesPower);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
+
+router.get("/performance/availability/:id", async (req, res) => {
+  try {
+    const pNameParam = req.params.id || "";
+    const pNames = pNameParam.split(",");
+
+    const turbinesAvailability = await db.turbinePerformenceData.findAll({
+      where: { p_name: pNames },
+      attributes: [
+        [
+          db.sequelize.fn("AVG", db.sequelize.col("avgAvaiability")),
+          "avgAvaiability",
+        ],
+        [
+          db.sequelize.fn("AVG", db.sequelize.col("avgPerformance")),
+          "avgPerformance",
+        ],
+        [db.sequelize.fn("SUM", db.sequelize.col("avgPower")), "avgPower"],
+        "case_id",
+        "p_name",
+      ],
+      group: ["case_id", "p_name"],
+    });
+
+    res.status(200).send(turbinesAvailability);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+});
+
+router.get("/performance/availabilityconcat/:id", async (req, res) => {
+  try {
+    const pNameParam = req.params.id || "";
+    const pNames = pNameParam.split(",");
+
+    const turbinesAvailability = await db.turbinePerformenceData.findAll({
+      where: { p_name: pNames },
+      attributes: [
+        [
+          db.sequelize.fn("AVG", db.sequelize.col("avgAvaiability")),
+          "avgAvaiability",
+        ],
+        [
+          db.sequelize.fn("AVG", db.sequelize.col("avgPerformance")),
+          "avgPerformance",
+        ],
+        [db.sequelize.fn("SUM", db.sequelize.col("avgPower")), "avgPower"],
+
+        "p_name",
+      ],
+      group: ["p_name"],
+    });
+
+    res.status(200).send(turbinesAvailability);
   } catch (e) {
     res.status(500).send(e.message);
   }
