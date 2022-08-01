@@ -8,7 +8,7 @@ const windFarmRouter = require("./routers/windFarm");
 const turbineRouter = require("./routers/turbines");
 
 //constants
-const { PORT } = require("./config/constants");
+const PORT = process.env.PORT || 4000;
 
 // Create an express app
 const app = express();
