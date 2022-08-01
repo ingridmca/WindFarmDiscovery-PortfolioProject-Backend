@@ -13,7 +13,7 @@ const turbineIds = async () => {
   for (const turbine of turbines) {
     //    break;
     const start = new Date("2022-01-03 01:00:00");
-    const end = new Date("2022-04-01 00:00:00");
+    const end = new Date("2022-01-20 00:00:00");
     const oneHourMs = 10 * 60 * 1000 * 6; // ms
 
     let batchTurbines = [];
